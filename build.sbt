@@ -24,8 +24,6 @@ val akka = Seq (
   "com.typesafe.akka" %% "akka-actor" % akkaV,
   "com.typesafe.akka" %% "akka-stream" % akkaV,
   "com.typesafe.akka" %% "akka-stream-testkit" % akkaV,
-  "com.typesafe.akka" %% "akka-http" % akkaV,
-  "com.typesafe.akka" %% "akka-http-testkit" % akkaV,
   "com.typesafe.akka" %% "akka-testkit" % akkaV
 )
 
