@@ -7,7 +7,13 @@ scalaVersion := "2.12.2"
 resolvers ++= Seq(
   "tpolecat" at "http://dl.bintray.com/tpolecat/maven",
   "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
-  Resolver.sonatypeRepo("releases")
+  Resolver.sonatypeRepo("releases"),
+  Resolver.mavenLocal,
+  "release-candidates" at "http://artifactory.cmdb.inhouse.paddypower.com:8081/artifactory/release-candidates",
+  "libs-release" at "http://artifactory.cmdb.inhouse.paddypower.com:8081/artifactory/libs-release",
+  "remote-repos" at "http://artifactory.cmdb.inhouse.paddypower.com:8081/artifactory/remote-repos",
+  "plugins-release" at "http://artifactory.cmdb.inhouse.paddypower.com:8081/artifactory/plugins-release",
+  "Artima Maven Repository" at "http://repo.artima.com/releases"
 )
 
 val scalacheck = Seq(

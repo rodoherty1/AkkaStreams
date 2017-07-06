@@ -11,7 +11,7 @@ import scala.concurrent.duration._
 /**
   * Created by rodoh on 05/07/2017.
   */
-object Test1 extends App {
+object TickExample extends App {
 
   implicit val system = ActorSystem()
   implicit val mat = ActorMaterializer()
