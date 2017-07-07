@@ -1,6 +1,11 @@
 package io.rob
 
-import akka.stream.scaladsl.{Keep, RunnableGraph, Sink, Source}
+import java.nio.file.Paths
+
+import akka.stream.IOResult
+import akka.stream.scaladsl._
+
+import akka.util.ByteString
 import org.scalatest._
 
 import scala.collection.immutable.Queue
@@ -13,7 +18,7 @@ class SinkExamplesSpec extends AsyncFlatSpec with Matchers with BeforeAndAfterAl
     system.terminate()
   }
 
-  "A sink" should "verify that the numbers 1 to 10 were produced" in {
+  "A Sink backed by a Queue" should "store the numbers produed by the Source" in {
     val source = Source(1 to 10)
 
     val sink: Sink[Int, Future[Queue[Int]]] =
@@ -26,5 +31,20 @@ class SinkExamplesSpec extends AsyncFlatSpec with Matchers with BeforeAndAfterAl
     graph.run()(mat) map { queue =>
       queue should contain theSameElementsAs (1 to 10)
     }
+  }
+
+  "A sink backed by a File" should """write "Hello World" to file""" in {
+    val file = Paths.get("hello.txt")
+    file.toFile.deleteOnExit()
+
+    val source = Source.single("Hello World")
+
+    val flow = Flow.fromFunction[String, ByteString](ByteString.apply)
+
+    val sink: Sink[ByteString, Future[IOResult]] = FileIO.toPath(file)
+
+    val graph: RunnableGraph[Future[IOResult]] = (source via flow).toMat(sink)(Keep.right)
+
+    graph.run()(mat) map { _.wasSuccessful shouldBe true }
   }
 }
