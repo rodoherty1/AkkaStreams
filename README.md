@@ -20,12 +20,7 @@
 
 ### Actors in an Akka Stream
 http://doc.akka.io/docs/akka/current/scala/stream/stream-integrations.html
+https://stackoverflow.com/questions/39125760/creating-a-flow-from-actor-in-akka-streams
 
 ## Todo
 * Move some of examples from ```src/main/scala``` to ```src/test/scala```
-
-
-
-
-
-
