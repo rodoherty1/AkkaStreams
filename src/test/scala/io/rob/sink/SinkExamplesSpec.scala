@@ -1,11 +1,11 @@
-package io.rob
+package io.rob.sink
 
 import java.nio.file.Paths
 
 import akka.stream.IOResult
 import akka.stream.scaladsl._
-
 import akka.util.ByteString
+import io.rob.StreamsFixture
 import org.scalatest._
 
 import scala.collection.immutable.Queue

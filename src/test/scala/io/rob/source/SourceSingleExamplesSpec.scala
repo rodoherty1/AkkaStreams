@@ -1,12 +1,11 @@
-package io.rob
+package io.rob.source
 
-import akka.{Done, NotUsed}
-import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Keep, RunnableGraph, Sink, Source}
+import akka.{Done, NotUsed}
+import io.rob.StreamsFixture
 import org.scalatest._
 
-import scala.concurrent.{ExecutionContextExecutor, Future}
+import scala.concurrent.Future
 
 /**
   * Created by rodoh on 06/07/2017.

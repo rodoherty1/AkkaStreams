@@ -1,12 +1,9 @@
-package io.rob
-
-import java.nio.file.Paths
+package io.rob.source
 
 import akka.actor.Cancellable
-import akka.stream.IOResult
-import akka.stream.scaladsl.{Flow, Keep, RunnableGraph, Sink, Source}
-import akka.util.ByteString
+import akka.stream.scaladsl.{Keep, RunnableGraph, Sink, Source}
 import akka.{Done, NotUsed}
+import io.rob.StreamsFixture
 import org.scalatest._
 
 import scala.concurrent.Future
