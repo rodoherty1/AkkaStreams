@@ -26,11 +26,15 @@ val scalatest = Seq(
 
 val akkaV = "2.5.3"
 
+val akkaHttpV = "10.0.9"
+
 val akka = Seq (
   "com.typesafe.akka" %% "akka-actor" % akkaV,
   "com.typesafe.akka" %% "akka-stream" % akkaV,
   "com.typesafe.akka" %% "akka-stream-testkit" % akkaV,
-  "com.typesafe.akka" %% "akka-testkit" % akkaV
+  "com.typesafe.akka" %% "akka-testkit" % akkaV,
+  "com.typesafe.akka" %% "akka-http" % akkaHttpV,
+  "com.typesafe.akka" %% "akka-http-core" % akkaHttpV
 )
 
 val logging = Seq (
@@ -43,3 +47,4 @@ val logging = Seq (
 libraryDependencies ++= scalacheck ++ scalatest ++ akka
 
 //initialCommands in console := "ammonite.repl.Main().run()"
+

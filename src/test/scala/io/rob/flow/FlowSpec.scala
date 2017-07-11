@@ -3,8 +3,9 @@ package io.rob.flow
 import akka.NotUsed
 import akka.actor.{Actor, ActorRef, Props}
 import akka.pattern.ask
-import akka.stream.scaladsl.{Flow, Sink, Source}
-import akka.util.Timeout
+import akka.stream.scaladsl
+import akka.stream.scaladsl.{Flow, JsonFraming, Sink, Source}
+import akka.util.{ByteString, Timeout}
 import io.rob.StreamsFixture
 import org.scalatest.{BeforeAndAfterAll, FlatSpec}
 
@@ -49,6 +50,22 @@ class FlowSpec extends FlatSpec with StreamsFixture with BeforeAndAfterAll {
 
     val graph = Source.single("Beep") via flow to Sink.foreach(println)
 
+    graph.run()(mat)
+  }
+
+
+  "Json Framing" should "" in {
+    val input = ByteString(
+      """
+        |[{
+        |  "Hello": "World"
+        |},
+        |{"h", "w"}]
+      """.stripMargin
+    )
+
+    val source = Source.single(input) via JsonFraming.objectScanner(200)
+    val graph = source to Sink.foreach(bs => println(bs.utf8String))
     graph.run()(mat)
   }
 }
