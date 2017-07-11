@@ -12,27 +12,29 @@ import scala.concurrent.Future
 import scala.concurrent.duration._
 
 
-class FlowExampleSpec extends FlatSpec with FlowFixture with BeforeAndAfterAll {
+class FlowSpec extends FlatSpec with StreamsFixture with BeforeAndAfterAll {
+
+  type Input = String
+  type Output = String
 
   override def afterAll(): Unit = system.terminate()
 
   implicit val timeout = Timeout(5.seconds)
 
-  "Flow.map" should "whatever" in {
+  "Flow.fromFunction and map" should "be composed together to create new flows" in {
     val actorRef : ActorRef = system.actorOf(Props(classOf[MyActor]))
 
-    type Input = String
-    type Output = String
+    val f1: Flow[Input, Output, NotUsed] = Flow.fromFunction((s: Input) => "Howdy")
 
-    val flow: Flow[Input, Output, NotUsed] = Flow[Input].map(_ => "Howdy")
+    val f2: Flow[Input, Int, NotUsed] = f1.map(s => s.length)
 
-    val graph = Source.single("Beep") via flow to Sink.foreach(println)
+    val graph = Source.single("Beep") via f1 via f2 to Sink.foreach(println)
 
     graph.run()(mat)
   }
 
 
-  "Flow.mapAsync" should "whatever" in {
+  "Flow.mapAsync" should "demonstrate how to use my own ActorRef as part of a flow" in {
     val actorRef : ActorRef = system.actorOf(Props(classOf[MyActor]))
 
     type Input = String
@@ -49,9 +51,6 @@ class FlowExampleSpec extends FlatSpec with FlowFixture with BeforeAndAfterAll {
 
     graph.run()(mat)
   }
-}
-
-trait FlowFixture extends StreamsFixture {
 }
 
 class MyActor extends Actor {

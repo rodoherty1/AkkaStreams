@@ -12,7 +12,7 @@ import scala.collection.immutable.Queue
 import scala.concurrent.Future
 
 
-class SinkExamplesSpec extends AsyncFlatSpec with Matchers with BeforeAndAfterAll with StreamsFixture {
+class SinkSpec extends AsyncFlatSpec with Matchers with BeforeAndAfterAll with StreamsFixture {
 
   override def afterAll(): Unit = {
     system.terminate()
