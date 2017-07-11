@@ -37,5 +37,9 @@
 * Document the basic terminology (graph stages, processing stage)
 * Read this - http://blog.colinbreck.com/integrating-akka-streams-and-akka-actors-part-ii/
 * Study this video and try to create a json parser - https://www.youtube.com/watch?v=x62K4ObBtw4&t=1692s
+* Be mindful of how threads are managed behind the scenes
+* Look for examples in our code of where we use Streams, explain why we chose Streams and explain how Streams might help us in the future.
+* Remember that not everyone is a Scala coder - Keep examples syntactically simple.
+* How would you debug a Stream
 
 
