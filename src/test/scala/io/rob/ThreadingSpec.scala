@@ -3,6 +3,12 @@ package io.rob
 import akka.stream.scaladsl.{Sink, Source}
 import org.scalatest.FlatSpec
 
+/**
+  * http://akka.io/blog/2016/07/06/threading-and-concurrency-in-akka-streams-explained
+  *
+  * Streams do not run on the caller thread.
+  * Instead, they run on a different thread in the background, without blocking the caller.
+  */
 class ThreadingSpec extends FlatSpec with StreamsFixture  {
   behavior of "Akka Streams threading"
 

@@ -41,5 +41,8 @@
 * Look for examples in our code of where we use Streams, explain why we chose Streams and explain how Streams might help us in the future.
 * Remember that not everyone is a Scala coder - Keep examples syntactically simple.
 * How would you debug a Stream
+* Explain how Akka Streams is memory bounded
+* Read http://akka.io/blog/2016/07/30/mastering-graph-stage-part-1
+
 
 
