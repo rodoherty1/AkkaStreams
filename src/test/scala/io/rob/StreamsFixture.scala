@@ -10,6 +10,6 @@ import scala.concurrent.ExecutionContextExecutor
   */
 trait StreamsFixture {
   implicit val system = ActorSystem()
-  val mat: ActorMaterializer = ActorMaterializer()
+  implicit val mat: ActorMaterializer = ActorMaterializer()
   implicit val ec: ExecutionContextExecutor = system.dispatcher
 }
