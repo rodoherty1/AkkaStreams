@@ -15,6 +15,11 @@
 * Sink that writes to disk
 * Sink that submits to a http request
 
+### Threading
+* Demonstrate that an Akka Stream is not called on the caller's thread
+* Demomstrate that AkkaStreams will generally reuse a thread when executing successive processing stages
+* Demomstrate that AkkaStreams will occasionally suspend a thread and use a different thread from the threadpool.
+
 ### Graphs
 * Broadcast **_Todo_**
 * Merge **_Todo_**
@@ -25,6 +30,7 @@
 ## Links
 * [Akka Stream docs] (http://doc.akka.io/docs/akka/current/scala/stream/stream-integrations.html)
 * [Actors in an Akka Stream] (https://stackoverflow.com/questions/39125760/creating-a-flow-from-actor-in-akka-streams)
+* [Threading in AkkaStreams] (http://akka.io/blog/2016/07/06/threading-and-concurrency-in-akka-streams-explained)
 
 ## Topics that are not covered in this session
 * Supervision strategies
@@ -33,14 +39,13 @@
 * Backpressure in depth
 
 ## Todo
+* Show a simple Http Server which fulfills requeests
 * Move some of examples from ```src/main/scala``` to ```src/test/scala```
 * Document the basic terminology (graph stages, processing stage)
 * Read this - http://blog.colinbreck.com/integrating-akka-streams-and-akka-actors-part-ii/
 * Study this video and try to create a json parser - https://www.youtube.com/watch?v=x62K4ObBtw4&t=1692s
-* Be mindful of how threads are managed behind the scenes - http://akka.io/blog/2016/07/06/threading-and-concurrency-in-akka-streams-explained
 * Look for examples in our code of where we use Streams, explain why we chose Streams and explain how Streams might help us in the future.
 * Remember that not everyone is a Scala coder - Keep examples syntactically simple.
-* How would you debug a Stream
 * Explain how Akka Streams is memory bounded
 * Read http://akka.io/blog/2016/07/30/mastering-graph-stage-part-1
 

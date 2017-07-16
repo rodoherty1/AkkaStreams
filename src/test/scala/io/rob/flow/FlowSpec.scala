@@ -35,7 +35,7 @@ class FlowSpec extends FlatSpec with StreamsFixture with BeforeAndAfterAll {
   }
 
 
-  "Flow.mapAsync" should "demonstrate how to use my own ActorRef as part of a flow" in {
+  "Flow.mapAsync" should "demonstrate how to use my own Actor as part of a flow" in {
     val actorRef : ActorRef = system.actorOf(Props(classOf[MyActor]))
 
     type Input = String

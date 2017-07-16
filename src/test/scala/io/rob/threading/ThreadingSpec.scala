@@ -1,12 +1,8 @@
 package io.rob.threading
 
-import akka.NotUsed
 import akka.stream.scaladsl.{Keep, Sink, SinkQueueWithCancel, Source}
 import io.rob.StreamsFixture
 import org.scalatest._
-
-import scala.concurrent.Future
-import scala.util.Success
 
 /**
   * http://akka.io/blog/2016/07/06/threading-and-concurrency-in-akka-streams-explained
@@ -44,19 +40,19 @@ class ThreadingSpec extends AsyncFlatSpec with StreamsFixture with Matchers with
 
     val sink = Sink.fold[Map[String, Int], (Int, String)](Map.empty[String, Int]) {
       case (map, (i, threadName)) =>
-        // println(s"$i, $threadName")
         val threadOccurrences = map.getOrElse(threadName, 1)
         map updated (threadName, threadOccurrences)
     }
 
-    val akkaThreads = source
+    val threadnamesUsed = source
         .take(1000000)
         .map(i => (i, Thread.currentThread().getName))
+        // .map{ case (i, threadName) => println(s"$i, $threadName"); (i, threadName)}  // Uncomment to debug
         .runWith(sink)
 
-    akkaThreads map { threads =>
-      println(threads)
-      threads.size should be > 1
+    threadnamesUsed map { threadnames =>
+      println(threadnames)
+      threadnames.size should be > 1
     }
   }
 }
