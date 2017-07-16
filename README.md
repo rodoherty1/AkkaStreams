@@ -39,7 +39,7 @@
 * Backpressure in depth
 
 ## Todo
-* Show a simple Http Server which fulfills requeests
+* Show a simple WebsocketServer which fulfills requeests - http://doc.akka.io/docs/akka-http/current/scala/http/websocket-support.html
 * Move some of examples from ```src/main/scala``` to ```src/test/scala```
 * Document the basic terminology (graph stages, processing stage)
 * Read this - http://blog.colinbreck.com/integrating-akka-streams-and-akka-actors-part-ii/
