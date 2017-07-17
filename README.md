@@ -25,7 +25,7 @@
 * Merge **_Todo_**
 
 ### Websocket Client with a Websocket Server
-* Have the client call the server and make the server return a result **_Todo_**
+* Have the client call the server and make the server return a result **_Todo_** - http://doc.akka.io/docs/akka-http/10.0.9/scala/http/client-side/websocket-support.html
 
 ## Links
 * [Akka Stream docs] (http://doc.akka.io/docs/akka/current/scala/stream/stream-integrations.html)
@@ -40,7 +40,6 @@
 * Backpressure in depth
 
 ## Todo
-* Show a simple WebsocketServer which fulfills requeests - http://doc.akka.io/docs/akka-http/current/scala/http/websocket-support.html
 * Move some of examples from ```src/main/scala``` to ```src/test/scala```
 * Document the basic terminology (graph stages, processing stage)
 * Read this - http://blog.colinbreck.com/integrating-akka-streams-and-akka-actors-part-ii/
@@ -48,7 +47,7 @@
 * Look for examples in our code of where we use Streams, explain why we chose Streams and explain how Streams might help us in the future.
 * Remember that not everyone is a Scala coder - Keep examples syntactically simple.
 * Explain how Akka Streams is memory bounded
-* Read http://akka.io/blog/2016/07/30/mastering-graph-stage-part-1
+* Read http://akka.io/blog/2016/07/30/mastering-graph-stage-part-1 and http://akka.io/blog/2016/08/25/simple-sink-source-with-graphstage
 
 
 
