@@ -1,4 +1,4 @@
-package io.rob
+package io.rob.websockets.helloworld
 
 import akka.NotUsed
 import akka.actor.ActorSystem
@@ -7,37 +7,31 @@ import akka.http.scaladsl.model.ws.{BinaryMessage, Message, TextMessage}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
-import akka.stream.scaladsl.{Flow, GraphDSL, Sink, Source}
+import akka.stream.scaladsl.{Flow, Source}
 
 import scala.io.StdIn
 
-object MyWebsocketsServer extends App {
+object HelloWorldWebsocketsServer extends App {
 
   implicit val system = ActorSystem()
   implicit val mat = ActorMaterializer()
   implicit val executionContext = system.dispatcher
 
-  def greeter(): Flow[Message, Message, Any] = {
-    Flow.fromGraph(GraphDSL.create() { builder => {
-      val flow: Flow[Message, TextMessage, NotUsed] = Flow[Message] flatMapConcat {
-        case tm: TextMessage =>
-          tm.textStream map {s => TextMessage(s"Hello $s !")}
 
-        case bm: BinaryMessage =>
-          Source.empty
-      }
+  def flow(): Flow[Message, TextMessage.Strict, NotUsed] = {
+    Flow[Message] flatMapConcat {
+      case tm: TextMessage =>
+        tm.textStream map {s => TextMessage(s"Hello $s !")}
 
-      builder.add(flow)
-
-      flow.shape
-    }})
+      case bm: BinaryMessage =>
+        Source.empty
+    }
   }
-
 
   val route: Route =
     path("hello") {
       get {
-        handleWebSocketMessages(greeter())
+        handleWebSocketMessages(flow())
       }
     }
 
