@@ -25,7 +25,11 @@
 * Broadcast **_Todo_**
 * Merge **_Todo_**
 
-### Websocket Client with a Websocket Server
+### Akka-Http
+* Akka-Http was intended to be a primary use case for AkkaStreams
+* Akka-Http provide back pressure all the way back to the TCP layer
+* Recall Ktoso's example of a curl request which receives tweets and is then suddenly suspended.
+*
 * Simple HelloWorld Websockets Client and Server
 ** TODO ** Need to be able to describe the flows on either side and what happens when either disconnects.  How does back-pressure work when you have a fast client and slow server.
 ** TODO ** Maybe I could use this in a slightly more elaborate server.  http://akka.io/blog/2016/08/25/simple-sink-source-with-graphstage
@@ -47,6 +51,7 @@
 * [Actors in an Akka Stream] (https://stackoverflow.com/questions/39125760/creating-a-flow-from-actor-in-akka-streams)
 * [Threading in AkkaStreams] (http://akka.io/blog/2016/07/06/threading-and-concurrency-in-akka-streams-explained)
 * [Heiko Seeberger's talk on AkkaHttp and Graphs] (https://www.youtube.com/watch?v=ryxrWVI3PMA&t=1191s)
+* [Websocket Server and
 
 ## Topics that are not covered in this session
 * Supervision strategies

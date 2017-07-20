@@ -34,7 +34,8 @@ val akka = Seq (
   "com.typesafe.akka" %% "akka-stream-testkit" % akkaV,
   "com.typesafe.akka" %% "akka-testkit" % akkaV,
   "com.typesafe.akka" %% "akka-http" % akkaHttpV,
-  "com.typesafe.akka" %% "akka-http-core" % akkaHttpV
+  "com.typesafe.akka" %% "akka-http-core" % akkaHttpV,
+  "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV
 )
 
 val logging = Seq (

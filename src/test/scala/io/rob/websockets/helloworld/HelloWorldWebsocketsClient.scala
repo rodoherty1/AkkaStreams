@@ -26,7 +26,7 @@ object HelloWorldWebsocketsClient extends App {
     case tm: TextMessage.Strict => println(tm)
   }
 
-  private lazy val flow: Flow[Message, Message, Future[WebSocketUpgradeResponse]] = Http().webSocketClientFlow(WebSocketRequest("ws://localhost:8080/hello"))
+  private lazy val flow: Flow[Message, Message, Future[WebSocketUpgradeResponse]] = Http().webSocketClientFlow(WebSocketRequest("ws://localhost:8083/hello"))
 
   val ((sourceActor, upgradeResponse), done: Future[Done]) =
     outgoing.viaMat(flow)(Keep.both)
@@ -45,5 +45,13 @@ object HelloWorldWebsocketsClient extends App {
 
   done onComplete println
 
-  sourceActor ! TextMessage("Rob")
+  val incident =
+    """
+      |{
+      |  "sport": "Soccer",
+      |  "incident": "GOAL_HOME"
+      |}
+    """.stripMargin
+
+  sourceActor ! TextMessage(incident)
 }

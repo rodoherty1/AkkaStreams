@@ -17,7 +17,7 @@ object SimpleExample extends App {
   implicit val materializer = ActorMaterializer()
   implicit val ec = system.dispatcher
 
-  val source = simpleSource.via(simpleFlow)
+  val source = sourceMaybe.via(simpleFlow)
 
   val (src, snk)  = source.toMat(simpleSink)(Keep.both).run
 

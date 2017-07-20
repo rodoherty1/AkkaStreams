@@ -10,6 +10,6 @@ object MySource {
 
   val sourceActorRef: Source[Int, ActorRef] = Source.actorRef[Int](10, OverflowStrategy.dropHead)
 
-  val simpleSource: Source[Int, Promise[Option[Int]]] = Source.maybe[Int]
+  val sourceMaybe: Source[Int, Promise[Option[Int]]] = Source.maybe[Int]
 
 }
