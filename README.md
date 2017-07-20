@@ -52,6 +52,7 @@
 * [Threading in AkkaStreams] (http://akka.io/blog/2016/07/06/threading-and-concurrency-in-akka-streams-explained)
 * [Heiko Seeberger's talk on AkkaHttp and Graphs] (https://www.youtube.com/watch?v=ryxrWVI3PMA&t=1191s)
 * [Akka's Akka Stream Announcement] (https://www.lightbend.com/blog/typesafe-announces-akka-streams)
+* [Akka Streams Terminology] (http://doc.akka.io/docs/akka/2.5.2/java/stream/stream-flows-and-basics.html)
 
 ## Topics that are not covered in this session
 * Supervision strategies
