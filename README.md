@@ -21,14 +21,26 @@
 * Demomstrate that AkkaStreams will occasionally suspend a thread and use a different thread from the threadpool.
 
 ### Graphs
-** TODO ** * Read http://akka.io/blog/2016/07/30/mastering-graph-stage-part-1 and http://akka.io/blog/2016/08/25/simple-sink-source-with-graphstage
+* Read http://akka.io/blog/2016/07/30/mastering-graph-stage-part-1 and http://akka.io/blog/2016/08/25/simple-sink-source-with-graphstage ** TODO **
 * Broadcast **_Todo_**
 * Merge **_Todo_**
 
 ### Websocket Client with a Websocket Server
-* Simple HellowWorld Websockets Client and Server
+* Simple HelloWorld Websockets Client and Server
 ** TODO ** Need to be able to describe the flows on either side and what happens when either disconnects.  How does back-pressure work when you have a fast client and slow server.
 ** TODO ** Maybe I could use this in a slightly more elaborate server.  http://akka.io/blog/2016/08/25/simple-sink-source-with-graphstage
+
+## Must haves Todos
+* Document the basic terminology (graph stages, processing stage)
+* Look for examples in our code of where we use Streams, explain why we chose Streams and explain how Streams might help us in the future.
+* Explain how Akka Streams is memory bounded - i.e. bounded queues with overflow strategies and backpressure.
+* Tidy up the websock server anf client example.  Describe the streams on either side and describe how backpressure works.
+
+## Nice to Have Todos
+* Read this - http://blog.colinbreck.com/integrating-akka-streams-and-akka-actors-part-ii/
+* Move some of examples from ```src/main/scala``` to ```src/test/scala```
+* Remember that not everyone is a Scala coder - Keep examples syntactically simple.
+* Read http://akka.io/blog/2016/07/30/mastering-graph-stage-part-1 and http://akka.io/blog/2016/08/25/simple-sink-source-with-graphstage
 
 ## Links
 * [Akka Stream docs] (http://doc.akka.io/docs/akka/current/scala/stream/stream-integrations.html)
@@ -41,15 +53,5 @@
 * Streams insides Streams (e.g. an ActorRef that kicks off its own Stream)
 * Distributed Streams
 * Backpressure in depth
-
-## Todo
-* Move some of examples from ```src/main/scala``` to ```src/test/scala```
-* Document the basic terminology (graph stages, processing stage)
-* Read this - http://blog.colinbreck.com/integrating-akka-streams-and-akka-actors-part-ii/
-* Look for examples in our code of where we use Streams, explain why we chose Streams and explain how Streams might help us in the future.
-* Remember that not everyone is a Scala coder - Keep examples syntactically simple.
-* Explain how Akka Streams is memory bounded
-* Read http://akka.io/blog/2016/07/30/mastering-graph-stage-part-1 and http://akka.io/blog/2016/08/25/simple-sink-source-with-graphstage
-
 
 
