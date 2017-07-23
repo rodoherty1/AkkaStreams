@@ -1,8 +1,7 @@
-package io.rob.threading
+package io.rob
 
 import akka.NotUsed
 import akka.stream.scaladsl.{Keep, Sink, SinkQueueWithCancel, Source}
-import io.rob.StreamsFixture
 import org.scalatest._
 
 /**
@@ -11,7 +10,7 @@ import org.scalatest._
   * Streams do not run on the caller thread.
   * Instead, they run on a different thread in the background, without blocking the caller.
   */
-class ThreadingSpec extends AsyncFlatSpec with StreamsFixture with Matchers with BeforeAndAfterAll {
+class BrownBag4Spec extends AsyncFlatSpec with StreamsFixture with Matchers with BeforeAndAfterAll {
   behavior of "Akka Streams"
 
   override def afterAll(): Unit = system.terminate()

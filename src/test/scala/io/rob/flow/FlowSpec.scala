@@ -3,7 +3,6 @@ package io.rob.flow
 import akka.NotUsed
 import akka.actor.{Actor, ActorRef, Props}
 import akka.pattern.ask
-import akka.stream.scaladsl
 import akka.stream.scaladsl.{Flow, JsonFraming, Sink, Source}
 import akka.util.{ByteString, Timeout}
 import io.rob.StreamsFixture

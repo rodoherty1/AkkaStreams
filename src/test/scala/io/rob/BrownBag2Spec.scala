@@ -1,43 +1,22 @@
-package io.rob.source
+package io.rob
 
 import akka.actor.Cancellable
 import akka.stream.scaladsl.{Keep, RunnableGraph, Sink, Source}
 import akka.{Done, NotUsed}
-import io.rob.StreamsFixture
 import org.scalatest._
 
-import scala.concurrent.Future
+import scala.concurrent.{Future, Promise}
 
 /**
   * Created by rodoh on 06/07/2017.
   */
-class SourceSpec extends AsyncFlatSpec with Matchers with BeforeAndAfterAll with StreamsFixture {
+class BrownBag2Spec extends FlatSpec with Matchers with BeforeAndAfterAll with StreamsFixture {
 
   override def afterAll(): Unit = {
     system.terminate()
   }
 
-  "A source single" should """say "hello world"""" in {
-    val source = Source.single("Hello World")
-
-    val sink = Sink.foreach(println)
-
-    val graph = source to sink
-
-    graph.run() shouldBe NotUsed
-  }
-
-  it should """say "hello world" again""" in {
-    val source: Source[String, NotUsed] = Source.single[String]("Hello World")
-
-    val sink: Sink[String, Future[Done]] = Sink.foreach[String](println)
-
-    val graph: RunnableGraph[NotUsed] = source.toMat(sink)(Keep.left)
-
-    graph.run()(mat) shouldBe NotUsed
-  }
-
-  it should """say "hello world" a third time""" in {
+  "Sink's materialized value" should "successfully complete" in {
     val source = Source.single("Hello World")
 
     val sink: Sink[String, Future[Done]] = Sink.foreach[String](println)

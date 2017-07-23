@@ -14,7 +14,6 @@ import spray.json._
 
 import scala.io.StdIn
 
-//case class Incident(name: String)
 case class FeedsMessage (sport: String, incident: String)
 
 object MyJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
@@ -28,7 +27,6 @@ object HelloWorldWebsocketsServer extends App {
   implicit val system = ActorSystem()
   implicit val mat = ActorMaterializer()
   implicit val executionContext = system.dispatcher
-
 
   val flow: Graph[FlowShape[Message, TextMessage.Strict], Any] = GraphDSL.create(s1) { implicit builder =>flow =>
     import GraphDSL.Implicits._
