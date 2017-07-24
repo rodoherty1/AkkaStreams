@@ -1,53 +1,71 @@
 package io.rob
 
 import akka.NotUsed
-import akka.actor.Cancellable
-import akka.stream.scaladsl.{Keep, RunnableGraph, Sink, Source}
+import akka.stream.scaladsl.{Keep, Sink, SinkQueueWithCancel, Source}
 import org.scalatest._
 
-import scala.collection.immutable.Queue
-import scala.concurrent.Future
-
 /**
-  * Created by rodoh on 06/07/2017.
+  * http://akka.io/blog/2016/07/06/threading-and-concurrency-in-akka-streams-explained
+  *
+  * Streams do not run on the caller's thread.
+  * Instead, they run on a different thread in the background, without blocking the caller.
   */
-class BrownBag3Spec extends AsyncFlatSpec with Matchers with BeforeAndAfterAll with StreamsFixture {
+class BrownBag3Spec extends AsyncFlatSpec with StreamsFixture with Matchers with BeforeAndAfterAll {
+  behavior of "Akka Streams"
 
-  override def afterAll(): Unit = {
-    system.terminate()
-  }
+  override def afterAll(): Unit = system.terminate()
 
-  "Source.repeat" should "repeat an element" in {
-    val source = Source.repeat("Howdy").take(10)
+  it should "not run a graph on the caller's thread" in {
+    val callersThread = Thread.currentThread().getName
 
-    val sink = Sink.foreach(println)
+    val source = Source.single("Hello World")
+    val sink = Sink.queue[String]()
 
-    val graph = source to sink
+    val queue: SinkQueueWithCancel[String] = source
+      .map(_ => Thread.currentThread().getName)
+      .toMat(sink)(Keep.right)
+      .run()
 
-    graph.run() shouldBe NotUsed
-  }
-
-  "Source.tick" should "produce some ticks and then be cancelled"  in {
-    import scala.concurrent.duration._
-    val source: Source[String, Cancellable] = Source.tick(0.seconds, 500.millis, "Tick")
-
-    val sink: Sink[String, Future[Queue[String]]] =
-      Sink.fold[Queue[String], String](Queue.empty[String])((q, element) => {
-        q.enqueue(element)
-      })
-
-    val graph: RunnableGraph[(Cancellable, Future[Queue[String]])] = source.toMat(sink)(Keep.both)
-
-    val (cancellable, queue) = graph.run()(mat)
-
-    Thread.sleep(2.seconds.toMillis)
-
-    cancellable.cancel()
-
-    cancellable shouldBe 'cancelled
-
-    queue map { q =>
-      q should contain atLeastOneElementOf List("Tick")
+    queue.pull() collect[Assertion] {
+      case Some(akkaThread) => akkaThread should not be callersThread
     }
   }
+
+  it should "reuse the same thread where possible but suspend threads when required" in {
+    val callersThread = Thread.currentThread().getName
+
+    def from(n: Int): Stream[Int] = n #:: from(n + 1)
+
+    val source: Source[Int, NotUsed] = Source.fromIterator[Int](() => from(0).iterator)
+
+    def zipWithThreadName(i: Int): (Int, String) = (i, Thread.currentThread().getName)
+
+    val sink = Sink.fold[Map[String, Int], (Int, String)](Map.empty[String, Int]) {
+      case (map, (i, threadName)) =>
+        val threadOccurrences = map.getOrElse(threadName, 0)
+        map updated (threadName, threadOccurrences + 1)
+    }
+
+    val threadnamesUsed = source
+        .take(10000)
+        .map(zipWithThreadName)
+        //. map{ case (i, threadName) => println(s"$i, $threadName"); (i, threadName)}  // Uncomment to debug
+        .runWith(sink)
+
+    threadnamesUsed map { threadnames =>
+      printout(threadnames)
+      threadnames.size should be > 1
+    }
+  }
+
+  def printout(threadnames: Map[String, Int]): Unit = {
+    println ("Count    Threadname")
+    println ("=====    ==========")
+    threadnames.foreach {
+      case (name, count) => println(s"$count    $name")
+    }
+  }
+
 }
+
+
