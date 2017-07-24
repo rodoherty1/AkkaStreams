@@ -58,6 +58,11 @@
 * Supervision strategies
 * Streams insides Streams (e.g. an ActorRef that kicks off its own Stream)
 * Distributed Streams
-* Backpressure in depth
+
+## FAQ
+Q: Should I use many ActorMaterializers?
+A: You should not need more than a couple of Materializers and those cases where you either want
+   1) to bind the lifecycle of a bunch of streams to an Actor (in which case you create a Materializer with the Actor's context.system so that when the actor dies, all streams under that materializer will be terminated).
+   2) if you want to shut down a bunch of streams together by calling materializer.shutdown() which will terminate all streams belonging to that materializer.
 
 
