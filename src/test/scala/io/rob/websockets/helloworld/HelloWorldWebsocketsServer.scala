@@ -38,7 +38,7 @@ object HelloWorldWebsocketsServer extends App {
 
     val src = Source.repeat[FeedsMessage](FeedsMessage("TENNIS", "Goal"))
 
-    val merge = builder.add(Merge(2)[FeedsMessage])
+    val merge = builder.add(Merge[FeedsMessage](2))
 
     src  ~> merge
     flow ~> merge ~> broadcast.in
@@ -65,7 +65,7 @@ object HelloWorldWebsocketsServer extends App {
       }
     }
 
-  val bindingFuture = Http().bindAndHandle(route, "localhost", 8083)
+  val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)
 
   println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
   StdIn.readLine()

@@ -29,7 +29,7 @@ object HelloWorldWebsocketsClient extends App {
 
   val throttle = Flow[Message].throttle(1, 1.second, 5, ThrottleMode.shaping)
 
-  private lazy val flow: Flow[Message, Message, Future[WebSocketUpgradeResponse]] = Http().webSocketClientFlow(WebSocketRequest("ws://localhost:8083/hello")) via throttle
+  private lazy val flow: Flow[Message, Message, Future[WebSocketUpgradeResponse]] = Http().webSocketClientFlow(WebSocketRequest("ws://localhost:8080/incident")) via throttle
 
   val ((sourceActor, upgradeResponse), done: Future[Done]) =
     outgoing.viaMat(flow)(Keep.both)
