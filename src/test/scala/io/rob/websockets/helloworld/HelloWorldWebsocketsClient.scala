@@ -6,7 +6,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.ws.{Message, TextMessage, WebSocketRequest, WebSocketUpgradeResponse}
 import akka.stream.scaladsl.{Flow, Keep, Sink, Source}
-import akka.stream.{ActorMaterializer, OverflowStrategy}
+import akka.stream.{ActorMaterializer, OverflowStrategy, ThrottleMode}
 
 import scala.concurrent.Future
 
@@ -15,6 +15,7 @@ import scala.concurrent.Future
   */
 object HelloWorldWebsocketsClient extends App {
 
+  import scala.concurrent.duration._
   implicit val system = ActorSystem()
   implicit val mat = ActorMaterializer()
   import system.dispatcher
@@ -26,7 +27,9 @@ object HelloWorldWebsocketsClient extends App {
     case tm: TextMessage.Strict => println(tm)
   }
 
-  private lazy val flow: Flow[Message, Message, Future[WebSocketUpgradeResponse]] = Http().webSocketClientFlow(WebSocketRequest("ws://localhost:8083/hello"))
+  val throttle = Flow[Message].throttle(1, 1.second, 5, ThrottleMode.shaping)
+
+  private lazy val flow: Flow[Message, Message, Future[WebSocketUpgradeResponse]] = Http().webSocketClientFlow(WebSocketRequest("ws://localhost:8083/hello")) via throttle
 
   val ((sourceActor, upgradeResponse), done: Future[Done]) =
     outgoing.viaMat(flow)(Keep.both)

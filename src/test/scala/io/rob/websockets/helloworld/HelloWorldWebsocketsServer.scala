@@ -8,8 +8,7 @@ import akka.http.scaladsl.model.ws.{BinaryMessage, Message, TextMessage}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.{ActorMaterializer, FlowShape, Graph}
-import akka.stream.scaladsl.{Broadcast, Flow, GraphDSL, Sink, Source}
-
+import akka.stream.scaladsl.{Broadcast, Flow, GraphDSL, Merge, Sink, Source}
 import spray.json._
 
 import scala.io.StdIn
@@ -37,8 +36,12 @@ object HelloWorldWebsocketsServer extends App {
 
     val ack = builder.add(Flow[FeedsMessage] map { _ => TextMessage.Strict("ACK")})
 
-    flow ~> broadcast.in
+    val src = Source.repeat[FeedsMessage](FeedsMessage("TENNIS", "Goal"))
 
+    val merge = builder.add(Merge(2)[FeedsMessage])
+
+    src  ~> merge
+    flow ~> merge ~> broadcast.in
     broadcast.out(0) ~> incidentProcessor
     broadcast.out(1) ~> ack.in
 
