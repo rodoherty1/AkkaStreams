@@ -32,7 +32,7 @@ class ThreadingSpec extends AsyncFlatSpec with StreamsFixture with Matchers with
     }
   }
 
-  it should "reuse the same thread where possible but suspend threads when required" in {
+  ignore should "reuse the same thread where possible but suspend threads when required" in {
     val callersThread = Thread.currentThread().getName
 
     def from(n: Int): Stream[Int] = n #:: from(n + 1)
