@@ -1,4 +1,4 @@
-# AkkaStreams
+# AkkaStreams [![Build Status](https://travis-ci.org/rodoherty1/AkkaStreams.svg?branch=adding-travis-stuff)](https://travis-ci.org/rodoherty1/AkkaStreams)
 
 ## Basic Examples in Unit Tests
 * Sources, Folds and Sinks
