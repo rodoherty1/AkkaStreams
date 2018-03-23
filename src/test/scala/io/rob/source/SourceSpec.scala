@@ -1,7 +1,11 @@
 package io.rob.source
 
+import java.nio.file.Paths
+
 import akka.actor.Cancellable
-import akka.stream.scaladsl.{Keep, RunnableGraph, Sink, Source}
+import akka.stream.IOResult
+import akka.stream.scaladsl.{FileIO, Flow, Framing, Keep, RunnableGraph, Sink, Source}
+import akka.util.ByteString
 import akka.{Done, NotUsed}
 import io.rob.StreamsFixture
 import org.scalatest._
@@ -71,5 +75,28 @@ class SourceSpec extends AsyncFlatSpec with Matchers with BeforeAndAfterAll with
     cancellable.cancel()
 
     cancellable shouldBe 'cancelled
+  }
+
+
+  it should "read a CVS file, split it on \\n and then send it to a sink " in {
+    val file = Paths.get("input.csv")
+
+    val source: Source[ByteString, Future[IOResult]] = FileIO.fromPath(file)
+
+    val byteStringToString: ByteString => String = bs => bs.utf8String
+
+    val flow = Flow.fromFunction(byteStringToString)
+
+    val splitter: Flow[ByteString, ByteString, NotUsed] = Framing.delimiter(
+      ByteString("\n"),
+      maximumFrameLength = 1024,
+      allowTruncation = true
+    )
+
+    val sink = Sink.seq[String]
+
+    source via splitter via flow runWith sink map { lines =>
+      assert(lines.lengthCompare(4) == 0)
+    }
   }
 }
