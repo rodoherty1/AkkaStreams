@@ -99,4 +99,23 @@ class SourceSpec extends AsyncFlatSpec with Matchers with BeforeAndAfterAll with
       assert(lines.lengthCompare(4) == 0)
     }
   }
+
+
+  it should "read a csv line, split it on commas and send a List of strings to a sink " in {
+
+    val source = Source.single[String]("item1,item2,item three, item four")
+
+    val splitOnCommas: String => List[String] = line => line.split(",").toList.map(s => s.trim)
+
+    val flow: Flow[String, List[String], NotUsed] = Flow.fromFunction(splitOnCommas)
+
+    val sink = Sink.fold[String, List[String]]("") { (_, columns) =>
+      columns.mkString("***")
+    }
+
+    source via flow runWith sink map { lines =>
+      assert(lines == "item1***item2***item three***item four")
+    }
+  }
+
 }
